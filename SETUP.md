@@ -32,7 +32,7 @@ npx wrangler kv namespace create APP_KV
 { binding = "APP_KV", id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }
 ```
 
-เอาค่า `id` ไปแทนที่ `REPLACE_WITH_KV_NAMESPACE_ID` ใน [`wrangler.toml`](wrangler.toml) — **แก้ในเครื่องตัวเองพอ
+เอาค่า `id` ไปใส่ใน block `[[kv_namespaces]]` ของ [`wrangler.toml`](wrangler.toml) — **แก้ในเครื่องตัวเองพอ
 ไม่ต้อง commit กลับเข้า repo กลาง** ถ้าเป็น fork ของตัวเอง (เช่นใช้วิธี Workers Builds ด้านล่าง) จะ commit ทับ
 ค่า placeholder ไปเลยก็ได้ เพราะเป็น KV ของ fork ตัวเองอยู่แล้ว ไม่ชนกับใคร
 
@@ -238,7 +238,7 @@ npm run deploy
 | `/mcp/*` ตอบ 503 "ยังไม่ได้ตั้งค่า MCP_ACCESS_TOKEN" | รัน `npx wrangler secret put MCP_ACCESS_TOKEN` แล้ว deploy ใหม่ |
 | `/mcp/*` ตอบ 401 จาก MCP client ภายนอก | เช็คว่า client แนบ header `Authorization: Bearer <ค่าเดียวกับ MCP_ACCESS_TOKEN>` มาด้วย |
 | Chat ตอบ "ยังไม่ได้ตั้งค่า ... API key" | ตั้ง `GEMINI_API_KEY`/`OPENAI_API_KEY`/`OPENAI_COMPAT_API_KEY` (secret) ให้ตรงกับ provider ที่เลือก หรือหน้า "ตั้งค่า Key" (openai-compat ต้องมี `OPENAI_COMPAT_BASE_URL` ด้วย) |
-| `wrangler dev`/`deploy` error เรื่อง KV namespace | เช็คว่าใส่ `id` จริงใน `wrangler.toml` แล้ว (ข้อ 2) ไม่ใช่ค่า placeholder |
+| `wrangler dev`/`deploy` error เรื่อง KV namespace | Module 1.1 ไม่ต้องใช้ KV ให้ลบ/คอมเมนต์ block `[[kv_namespaces]]` ออกก่อน หรือใส่ namespace ID จริงจาก `npx wrangler kv namespace create APP_KV` ห้ามใช้ค่า placeholder |
 | Telegram บอทไม่ตอบเลย | `npx wrangler tail` ดู log real-time ว่า request เข้าไหม / webhook ผูกถูก URL ไหม |
 | Calendar tool error "invalid_grant" | refresh token หมดอายุ — เช็คว่า OAuth consent screen เป็น "In production" แล้ว (ข้อ 5.2) ถ้าใช้ทาง 5.4b แค่เปิด `/oauth/google/start` ใหม่อีกรอบก็ได้ token ใหม่ทันที ไม่ต้องรอ deploy |
 | เปิด `/oauth/google/start` แล้วได้ 401 | ยังไม่ได้ login เว็บนี้ (ต้องมี session cookie จาก `/login` ก่อน — ดูข้อ 4) |
@@ -260,7 +260,7 @@ npm run deploy
 2. **สร้าง KV namespace ผ่านหน้าเว็บ** (ไม่ต้องใช้ CLI): Cloudflare dashboard → **Workers & Pages → KV** →
    Create a namespace → ตั้งชื่ออะไรก็ได้ (เช่น `APP_KV`) → คัดลอก **Namespace ID** ที่ได้
 3. **แก้ `wrangler.toml` ใน fork ของตัวเอง** ผ่านหน้าเว็บ GitHub ตรง ๆ: เปิดไฟล์ `wrangler.toml` → กดไอคอนดินสอ
-   (Edit) → แทนที่ `REPLACE_WITH_KV_NAMESPACE_ID` ด้วย id จากข้อ 2 → **Commit changes** ตรง branch `main`
+   (Edit) → เพิ่ม block `[[kv_namespaces]]` พร้อม id จริงตามข้อ 2 เมื่อเริ่มใช้ Module 1.2/1.3 → **Commit changes** ตรง branch `main`
 4. **ต่อ Cloudflare Workers Builds**: Cloudflare dashboard → **Workers & Pages → Create → Import a repository**
    → เลือก fork ของตัวเอง (ต้องกด Authorize ให้ Cloudflare เข้าถึง GitHub ก่อนครั้งแรก) → ปล่อยให้ Cloudflare
    ตรวจจับ `wrangler.toml` แล้วเดา build command ให้เอง (ปกติเป็น `npx wrangler deploy`) → กด **Save and Deploy**
