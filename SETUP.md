@@ -73,6 +73,13 @@ OPENAI_COMPAT_MODEL = "gpt-4o-mini"
 รันทดสอบในเครื่องก่อนก็ได้ (`npm run dev`) โดยคัดลอก [`.dev.vars.example`](.dev.vars.example) เป็น `.dev.vars`
 แล้วใส่ค่าเดียวกัน (ไฟล์นี้อยู่ใน `.gitignore` แล้ว ห้าม commit)
 
+### ตรวจสอบกรณีหน้า Chat แจ้งว่าไม่มี API key
+
+- **Local (`npm run dev`)**: ต้องมีไฟล์ `Workshop-Agentic-AI/.dev.vars` อยู่ที่โฟลเดอร์เดียวกับ `wrangler.toml` ไม่ใช่ `public/` และไม่ใช่โฟลเดอร์ parent จากนั้นหยุดแล้วรัน `npm run dev` ใหม่ทุกครั้งหลังแก้ไฟล์
+- **Deploy จริง**: `.dev.vars` จะไม่ถูกนำไป deploy ต้องตั้ง secret ใน Worker ด้วย `npx wrangler secret put GEMINI_API_KEY` หรือ `npx wrangler secret put OPENAI_API_KEY` แล้วรัน `npm run deploy` ใหม่
+- ห้ามใส่ key ใน `public/chat/app.js`, HTML หรือ `wrangler.toml` เพราะไฟล์เหล่านี้ถูกเปิดเผยต่อ browser/ผู้ใช้งาน
+- ทดสอบว่า Worker เห็น secret แล้วด้วยการเลือก provider ให้ตรงกับ key ที่ตั้ง เช่น ตั้ง `GEMINI_API_KEY` ต้องเลือก `Gemini` ในหน้า Chat
+
 ## 4. รันและ deploy
 
 ```bash
