@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Desk — Chat</title>
+  <style>:root{font-family:system-ui,sans-serif;color:#172033;background:#f5f7fb}*{box-sizing:border-box}body{margin:0}.shell{max-width:900px;margin:auto;min-height:100vh;padding:24px;display:flex;flex-direction:column}header{display:flex;justify-content:space-between;align-items:center}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.controls>*{padding:10px;border:1px solid #ccd5e5;border-radius:9px;background:#fff}.messages{flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px;min-height:420px}.bubble{max-width:78%;padding:11px 14px;margin:10px 0;border-radius:15px;white-space:pre-wrap}.user{margin-left:auto;background:#3157d5;color:#fff}.assistant{background:#edf1f7}.composer{display:flex;gap:8px;margin-top:14px}.composer input{flex:1;padding:13px;border:1px solid #ccd5e5;border-radius:10px}.composer button{padding:0 20px;border:0;border-radius:10px;background:#3157d5;color:#fff;font-weight:700}a{color:#3157d5}</style>
+</head>
+<body><main class="shell"><header><h1>💬 AI Desk Chat</h1><a href="/">กลับหน้าแรก</a></header>
+<div class="controls"><label>Provider <select id="provider"><option value="gemini">Gemini</option><option value="openai">OpenAI</option><option value="openai-compat">Custom gateway</option></select></label><label>Model <input id="model" value="gemini-flash-latest"></label></div>
+<section id="messages" class="messages" aria-live="polite"></section><form id="composer" class="composer"><input id="message" autocomplete="off" placeholder="พิมพ์ข้อความ..." required><button>ส่ง</button></form></main><script src="/chat/app.js"></script></body></html>
