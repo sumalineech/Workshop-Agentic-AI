@@ -12,11 +12,10 @@ directory = "./public"
 binding = "ASSETS"
 run_worker_first = true
 
-# Module 1.1 ยังไม่ใช้ KV จึงเว้น binding นี้ไว้ก่อน
-# เมื่อทำ Module 1.2/1.3 แล้ว ให้สร้าง namespace และเพิ่ม block นี้:
-# [[kv_namespaces]]
-# binding = "APP_KV"
-# id = "1cd0f7e62d7b481189851392164da64a"
+# Module 1.2 ใช้ KV เก็บ API keys และ base URL ที่ตั้งจากหน้า settings
+[[kv_namespaces]]
+binding = "APP_KV"
+id = "1cd0f7e62d7b481189851392164da64a"
 
 # Secret จริงทั้งหมดต่อไปนี้ ห้ามใส่ในไฟล์นี้เด็ดขาด — ตั้งผ่าน `npx wrangler secret put <ชื่อ>` เท่านั้น
 # (เข้ารหัสเก็บฝั่ง Cloudflare) รายชื่อที่ต้องตั้ง ดู SETUP.md:

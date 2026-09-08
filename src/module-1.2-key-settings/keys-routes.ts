@@ -24,27 +24,33 @@ export async function handleKeysRoute(request: Request, env: Env): Promise<Respo
       return errorJson('body ต้องเป็น JSON');
     }
 
-    // ตั้ง API key ของ provider ใดก็ได้ (gemini/openai/openai-compat)
+    let provider: ChatProvider | undefined;
+    let apiKey: string | undefined;
+    let baseUrl: string | undefined;
+
+    // ตรวจสอบทุกค่าก่อนเขียน เพื่อไม่ให้ request ที่มีบาง field ผิดรูปแบบเขียนค่าอื่นไปแล้ว
     if (body.apiKey !== undefined) {
-      const provider = body.provider as ChatProvider;
+      provider = body.provider as ChatProvider;
       if (!VALID_PROVIDERS.includes(provider)) {
         return errorJson(`provider ต้องเป็นหนึ่งใน ${VALID_PROVIDERS.join(', ')}`);
       }
       if (typeof body.apiKey !== 'string' || !body.apiKey.trim()) return errorJson('apiKey ห้ามว่าง');
-      await setApiKey(env, provider, body.apiKey.trim());
+      apiKey = body.apiKey.trim();
     }
 
     // ตั้ง base URL ของ openai-compat gateway (ไม่เกี่ยวกับ provider gemini/openai ซึ่งใช้ endpoint คงที่)
     if (body.baseUrl !== undefined) {
       if (typeof body.baseUrl !== 'string' || !body.baseUrl.trim()) return errorJson('baseUrl ห้ามว่าง');
-      const baseUrl = body.baseUrl.trim();
+       baseUrl = body.baseUrl.trim();
       if (!/^https?:\/\//i.test(baseUrl)) return errorJson('baseUrl ต้องขึ้นต้นด้วย http:// หรือ https://');
-      await setBaseUrl(env, baseUrl);
     }
 
     if (body.apiKey === undefined && body.baseUrl === undefined) {
       return errorJson('ต้องส่ง {provider, apiKey} หรือ {baseUrl} มาอย่างน้อยหนึ่งอย่าง');
     }
+
+    if (provider && apiKey) await setApiKey(env, provider, apiKey);
+    if (baseUrl) await setBaseUrl(env, baseUrl);
 
     return json({ ok: true, source: 'kv' });
   }

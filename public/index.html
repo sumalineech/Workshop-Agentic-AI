@@ -2,10 +2,30 @@
 <html lang="th">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="refresh" content="0; url=./chat/" />
-  <title>AI Desk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Desk | Portal</title>
+  <link rel="stylesheet" href="./shared/styles.css" />
 </head>
 <body>
-  <p>กำลังพาไปหน้า Chat... ถ้าไม่ไปเอง <a href="./chat/">กดที่นี่</a></p>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="./"><span class="brand-mark">✦</span><span>AI Desk</span></a>
+      <nav class="top-nav" aria-label="เมนูหลัก"><a href="./chat/">Chat</a><a href="./settings-keys/">ตั้งค่า Key</a></nav>
+    </header>
+    <p class="eyebrow">PORTAL HUB</p>
+    <h1>ผู้ช่วย AI ของคุณ</h1>
+    <p class="lede">เลือกเครื่องมือที่ต้องการใช้งานจากด้านล่าง</p>
+    <section class="grid-2">
+      <a class="panel card-link" href="./chat/">
+        <p class="eyebrow">MODULE 1.1</p><h2>💬 หน้าต่าง Chat</h2>
+        <p class="panel-sub">คุยกับ Gemini, OpenAI หรือ Custom gateway ผ่าน backend ของ Worker</p>
+      </a>
+      <a class="panel card-link" href="./settings-keys/">
+        <p class="eyebrow">MODULE 1.2</p><h2>🔑 ตั้งค่า Key &amp; Gateway</h2>
+        <p class="panel-sub">จัดการ API key และ base URL ใน Cloudflare KV โดยไม่ต้อง deploy ใหม่</p>
+      </a>
+    </section>
+    <footer><span>AI DESK · CLOUDFLARE WORKER</span><span>MODULE 1.2</span></footer>
+  </main>
 </body>
 </html>
