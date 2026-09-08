@@ -4,6 +4,7 @@
   "private": true,
   "description": "AI Desk — Chat (Gemini/OpenAI/OpenAI-compatible gateway) + key settings + MCP servers (utils, Google Calendar, text-to-SQL) + MCP client + Telegram, all in one Cloudflare Worker",
   "scripts": {
+    "install:check": "node -e \"for (const p of ['@cloudflare/workers-types','typescript','wrangler']) { try { require.resolve(p); } catch { console.error('Missing dependency: '+p); process.exitCode=1; } }\"",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit",
